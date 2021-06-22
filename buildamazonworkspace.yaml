@@ -8,4 +8,8 @@ Resources:
       EnableDnsSupport: true
       EnableDnsHostnames: true
       InstanceTenancy: default
-      
+      Tags:
+        - Key: Name
+          Value: workspaces-bravo-01
+        - Key: Created
+          Value: 2021-06-22-1328
