@@ -16,11 +16,11 @@ Resources:
   VPCSN01:  
     Type: AWS::EC2::Subnet
     Properties: 
-      AssignIpv6AddressOnCreation: false
-      AvailabilityZone: "us-west-2a"
+      VpcId: !Ref CFTVPC
+      AvailabilityZone: !Select [ 0, !GetAZs ]
       CidrBlock: 10.40.11.0/24
       MapPublicIpOnLaunch: true
       Tags: 
         - Key: Name
-          Value: "wkspbravo-west-2a"
-      VpcId: workspaces-bravo-01
+          Value: "wkspbravo-west-public-1st"
+      
