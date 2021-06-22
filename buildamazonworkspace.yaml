@@ -13,7 +13,7 @@ Resources:
           Value: workspaces-bravo-01
         - Key: Created
           Value: 2021-06-22-1328
-  VPCSN01:  
+  VPCSN11:  
     Type: AWS::EC2::Subnet
     Properties: 
       VpcId: !Ref CFTVPC
@@ -22,5 +22,84 @@ Resources:
       MapPublicIpOnLaunch: true
       Tags: 
         - Key: Name
-          Value: "wkspbravo-west-public-1st"
-      
+          Value: "wkspbravo-west-public-11th"
+  VPCSN21:  
+    Type: AWS::EC2::Subnet
+    Properties: 
+      VpcId: !Ref CFTVPC
+      AvailabilityZone: !Select [ 0, !GetAZs ]
+      CidrBlock: 10.40.21.0/24
+      MapPublicIpOnLaunch: false
+      Tags: 
+        - Key: Name
+          Value: "wkspbravo-west-private-21st" 
+  VPCSN31:  
+    Type: AWS::EC2::Subnet
+    Properties: 
+      VpcId: !Ref CFTVPC
+      AvailabilityZone: !Select [ 0, !GetAZs ]
+      CidrBlock: 10.40.31.0/24
+      MapPublicIpOnLaunch: false
+      Tags: 
+        - Key: Name
+          Value: "wkspbravo-west-private-31st"      
+  VPCSN12:  
+    Type: AWS::EC2::Subnet
+    Properties: 
+      VpcId: !Ref CFTVPC
+      AvailabilityZone: !Select [ 0, !GetAZs ]
+      CidrBlock: 10.40.12.0/24
+      MapPublicIpOnLaunch: true
+      Tags: 
+        - Key: Name
+          Value: "wkspbravo-west-public-12th"
+  VPCSN22:  
+    Type: AWS::EC2::Subnet
+    Properties: 
+      VpcId: !Ref CFTVPC
+      AvailabilityZone: !Select [ 0, !GetAZs ]
+      CidrBlock: 10.40.22.0/24
+      MapPublicIpOnLaunch: false
+      Tags: 
+        - Key: Name
+          Value: "wkspbravo-west-private-22nd" 
+  VPCSN32:  
+    Type: AWS::EC2::Subnet
+    Properties: 
+      VpcId: !Ref CFTVPC
+      AvailabilityZone: !Select [ 0, !GetAZs ]
+      CidrBlock: 10.40.32.0/24
+      MapPublicIpOnLaunch: false
+      Tags: 
+        - Key: Name
+          Value: "wkspbravo-west-private-32nd"    
+  VPCSN13:  
+    Type: AWS::EC2::Subnet
+    Properties: 
+      VpcId: !Ref CFTVPC
+      AvailabilityZone: !Select [ 0, !GetAZs ]
+      CidrBlock: 10.40.13.0/24
+      MapPublicIpOnLaunch: true
+      Tags: 
+        - Key: Name
+          Value: "wkspbravo-west-public-13th"
+  VPCSN23:  
+    Type: AWS::EC2::Subnet
+    Properties: 
+      VpcId: !Ref CFTVPC
+      AvailabilityZone: !Select [ 0, !GetAZs ]
+      CidrBlock: 10.40.23.0/24
+      MapPublicIpOnLaunch: false
+      Tags: 
+        - Key: Name
+          Value: "wkspbravo-west-private-23rd" 
+  VPCSN33:  
+    Type: AWS::EC2::Subnet
+    Properties: 
+      VpcId: !Ref CFTVPC
+      AvailabilityZone: !Select [ 0, !GetAZs ]
+      CidrBlock: 10.40.33.0/24
+      MapPublicIpOnLaunch: false
+      Tags: 
+        - Key: Name
+          Value: "wkspbravo-west-private-33rd"                        
