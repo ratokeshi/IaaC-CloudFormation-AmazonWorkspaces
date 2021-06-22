@@ -102,4 +102,14 @@ Resources:
       MapPublicIpOnLaunch: false
       Tags: 
         - Key: Name
-          Value: "wkspbravo-west-private-33rd"                        
+          Value: "wkspbravo-west-private-33rd"                     
+  # Our VPC will need internet access:     
+  InternetGateway:
+    Type: AWS::EC2::InternetGateway
+    DependsOn: CFTVPC
+  AttachGateway:
+    Type: AWS::EC2::VPCGatewayAttachment
+    # Notice how you can't attach an IGW to a VPC unless both are created:
+    Properties:
+      VpcId: !Ref CFTVPC
+      InternetGatewayId: !Ref InternetGateway
