@@ -113,3 +113,39 @@ Resources:
     Properties:
       VpcId: !Ref CFTVPC
       InternetGatewayId: !Ref InternetGateway
+    # Some route tables for our subnets:
+  PublicRouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref CFTVPC
+      Tags:
+      - Key: Name
+        Value: Public
+  PublicRoute1:   # Public route table has direct routing to IGW:
+    Type: AWS::EC2::Route
+    DependsOn: AttachGateway
+    Properties:
+      RouteTableId: !Ref PublicRouteTable
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId: !Ref InternetGateway      
+  mySubnetRouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId:
+        Ref: VPCSN11
+      RouteTableId:
+        Ref: PublicRouteTable    
+  mySubnetRouteTableAssociation12:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId:
+        Ref: VPCSN12
+      RouteTableId:
+        Ref: PublicRouteTable        
+  mySubnetRouteTableAssociation13:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId:
+        Ref: VPCSN13
+      RouteTableId:
+        Ref: PublicRouteTable          
