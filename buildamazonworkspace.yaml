@@ -221,4 +221,20 @@ Resources:
       SubnetId:
         Ref: VPCSN33
       RouteTableId:
-        Ref: PrivateRouteTable                                               
+        Ref: PrivateRouteTable          
+  # Create Microsoft AD next 
+  # TODO - Replace password with dynamic reference
+  myDirectory: 
+    Type: AWS::DirectoryService::MicrosoftAD
+    Properties: 
+      Name: "bravo.r4t.net"
+      Password: "Password1234!"
+      #  Ref: MicrosoftADPW
+      ShortName: "bravo"
+      #  Ref: "bravo"
+      VpcSettings: 
+        SubnetIds: 
+          - Ref: VPCSN21
+          - Ref: VPCSN22
+        VpcId: 
+          Ref: CFTVPC                                             
