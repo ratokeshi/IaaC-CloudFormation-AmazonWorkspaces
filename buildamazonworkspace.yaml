@@ -162,4 +162,20 @@ Resources:
   ElasticIPAddress:
     Type: AWS::EC2::EIP
     Properties:
-     Domain: CFTVPC           
+     Domain: CFTVPC     
+  # Create Private subnet association 
+    # Here is a private route table:
+  PrivateRouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref CFTVPC
+      Tags:
+      - Key: Name
+        Value: Private
+  PrivateRoute1:            # Private route table can access web via NAT (created below)
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId: !Ref PrivateRouteTable
+      DestinationCidrBlock: 0.0.0.0/0
+      # Route traffic through the NAT Gateway:
+      NatGatewayId: !Ref NATGateway         
