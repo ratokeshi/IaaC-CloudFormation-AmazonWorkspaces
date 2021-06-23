@@ -148,4 +148,6 @@ Resources:
       SubnetId:
         Ref: VPCSN13
       RouteTableId:
-        Ref: PublicRouteTable          
+        Ref: PublicRouteTable     
+  # Next build NAT Gateway (NGW)
+             
