@@ -178,4 +178,47 @@ Resources:
       RouteTableId: !Ref PrivateRouteTable
       DestinationCidrBlock: 0.0.0.0/0
       # Route traffic through the NAT Gateway:
-      NatGatewayId: !Ref NATGateway         
+      NatGatewayId: !Ref NATGateway  
+  # Associate private route table with NAT Gateway NGW
+  mySubnetRouteTableAssociation21:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId:
+        Ref: VPCSN21
+      RouteTableId:
+        Ref: PrivateRouteTable 
+  mySubnetRouteTableAssociation22:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId:
+        Ref: VPCSN22
+      RouteTableId:
+        Ref: PrivateRouteTable      
+  mySubnetRouteTableAssociation23:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId:
+        Ref: VPCSN23
+      RouteTableId:
+        Ref: PrivateRouteTable  
+  mySubnetRouteTableAssociation31:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId:
+        Ref: VPCSN31
+      RouteTableId:
+        Ref: PrivateRouteTable 
+  mySubnetRouteTableAssociation32:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId:
+        Ref: VPCSN32
+      RouteTableId:
+        Ref: PrivateRouteTable  
+  mySubnetRouteTableAssociation33:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId:
+        Ref: VPCSN33
+      RouteTableId:
+        Ref: PrivateRouteTable                                               
