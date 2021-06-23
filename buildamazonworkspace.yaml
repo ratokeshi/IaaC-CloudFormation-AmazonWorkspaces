@@ -150,4 +150,16 @@ Resources:
       RouteTableId:
         Ref: PublicRouteTable     
   # Next build NAT Gateway (NGW)
-             
+  # A NAT Gateway:
+  NATGateway:
+    Type: AWS::EC2::NatGateway
+    Properties:
+     AllocationId: !GetAtt ElasticIPAddress.AllocationId
+     SubnetId: !Ref VPCSN11
+     Tags:
+     - Key: Name
+       Value: !Sub NAT-${AWS::StackName}
+  ElasticIPAddress:
+    Type: AWS::EC2::EIP
+    Properties:
+     Domain: CFTVPC           
