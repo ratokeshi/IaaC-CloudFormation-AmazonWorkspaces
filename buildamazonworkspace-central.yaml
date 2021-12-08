@@ -229,7 +229,9 @@ Resources:
     Properties: 
       Name: "bravo.r4t.net"
       Password: "Password1234!"
+      #  Ref: MicrosoftADPW
       ShortName: "bravo"
+      #  Ref: "bravo"
       VpcSettings: 
         SubnetIds: 
           - Ref: VPCSN21

@@ -1,0 +1,474 @@
+---
+Parameters:
+  StackVersion:
+    Type: String 
+    Default: alpha 
+    AllowedValues:
+      - alpha 
+      - bravo
+      - charlie
+      - delta 
+      - echo 
+      - foxtrot 
+      - gulf 
+      - hotel 
+      - india 
+    Description: Enter general version or attempt ID. 
+  VPCName:
+    Type: String
+    Default: vpc
+    Description: Enter name for VPC. 
+  SecondOctet:
+    Type: Number 
+    Default: 40
+    MinValue: 0 
+    MaxValue: 254
+  NumberOfAZs: 
+    Type: Number 
+    Default: 3
+    MinValue: 1 
+    MaxValue: 5
+  TimeStamp: 
+    Type: String 
+    Default: 2021-12-31-2359
+    Description: Enter a Time stamp for naming and other identifiers. 
+  IsAD:
+    Type: String 
+    Default: No 
+    AllowedValues:
+      - Yes 
+      - No
+    Description: Make sure that the number of AZs is 2 or more. 
+  BaseDomain:
+    Type: String 
+    Default: r4t.net 
+    Description: Enter a base domain, the default is r4t.net.
+  DomainName: 
+    Type: String 
+    Default: bravo
+    Description: Enter a netbios domain name.  The default is bravo. 
+  DomainPassword:
+    Type: String
+    Default: Password1234!
+    Description: Enter a default domain administrator password.  The user will be -- admin.   
+Conditions: 
+  IsAZ05: 
+    !Equals [ !Ref NumberOfAZs, '5' ]
+  IsAZ04:
+    !Or [!Equals [!Ref NumberOfAZs, '4'], Condition: IsAZ05]
+  IsAZ03:
+    !Or [!Equals [!Ref NumberOfAZs, '3'], Condition: IsAZ05, Condition: IsAZ04]
+  IsAZ02:
+    !Or [!Equals [!Ref NumberOfAZs, '2'], Condition: IsAZ05, Condition: IsAZ04, Condition: IsAZ03]  
+  IsAD:
+    !Equals [ !Ref IsAD, 'Yes' ]  
+Resources:
+  CFTVPC:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: !Sub 
+        - 10.${SecondOctet}.0.0/16
+        - { SecondOctet: !Ref SecondOctet}
+      EnableDnsSupport: true
+      EnableDnsHostnames: true
+      InstanceTenancy: default
+      Tags:
+        - Key: Name
+          Value: !Sub ${VPCName}-${TimeStamp}
+        - Key: Created
+          Value: !Sub ${TimeStamp}
+        - Key: NumberOfAZs
+          Value: !Sub ${NumberOfAZs}
+        - Key: IsAZ01
+          Value: 
+            True
+            #!Ref IsAZ01  
+        - Key: IsAZ02
+          Value:
+            !If [IsAZ02, True, False]  
+        - Key: IsAZ03
+          Value:
+            !If [IsAZ03, True, False]  
+        - Key: IsAZ04
+          Value:
+            !If [IsAZ04, True, False]  
+        - Key: IsAZ05
+          Value:
+            !If [IsAZ05, True, False]            
+  VPCSN11:  
+    Type: AWS::EC2::Subnet
+    Properties: 
+      VpcId: !Ref CFTVPC
+      AvailabilityZone: !Select [ 0, !GetAZs ]
+      CidrBlock: !Sub 10.${SecondOctet}.11.0/24
+      MapPublicIpOnLaunch: true
+      Tags: 
+        - Key: Name
+          Value: !Sub ${VPCName}-public-11th
+        - Key: Created 
+          Value: !Sub ${TimeStamp}
+  VPCSN21:  
+    Type: AWS::EC2::Subnet
+    Properties: 
+      VpcId: !Ref CFTVPC
+      AvailabilityZone: !Select [ 0, !GetAZs ]
+      CidrBlock: !Sub 10.${SecondOctet}.21.0/24
+      MapPublicIpOnLaunch: false
+      Tags: 
+        - Key: Name
+          Value: !Sub ${VPCName}-private-21st
+        - Key: Created 
+          Value: !Sub ${TimeStamp}  
+  VPCSN31:  
+    Type: AWS::EC2::Subnet
+    Properties: 
+      VpcId: !Ref CFTVPC
+      AvailabilityZone: !Select [ 0, !GetAZs ]
+      CidrBlock: !Sub 10.${SecondOctet}.31.0/24
+      MapPublicIpOnLaunch: false
+      Tags: 
+        - Key: Name
+          Value: !Sub ${VPCName}-private-31st
+        - Key: Created 
+          Value: !Sub ${TimeStamp}    
+  VPCSN12:  
+    Type: AWS::EC2::Subnet
+    Condition: IsAZ02
+    Properties: 
+      VpcId: !Ref CFTVPC
+      AvailabilityZone: !Select [ 1, !GetAZs ]
+      CidrBlock: !Sub 10.${SecondOctet}.12.0/24
+      MapPublicIpOnLaunch: true
+      Tags: 
+        - Key: Name
+          Value: !Sub ${VPCName}-public-12th
+        - Key: Created 
+          Value: !Sub ${TimeStamp}
+  VPCSN22:  
+    Type: AWS::EC2::Subnet
+    Condition: IsAZ02
+    Properties: 
+      VpcId: !Ref CFTVPC
+      AvailabilityZone: !Select [ 1, !GetAZs ]
+      CidrBlock: !Sub 10.${SecondOctet}.22.0/24
+      MapPublicIpOnLaunch: false
+      Tags: 
+        - Key: Name
+          Value: !Sub ${VPCName}-private-22nd
+        - Key: Created 
+          Value: !Sub ${TimeStamp}  
+  VPCSN32:  
+    Type: AWS::EC2::Subnet
+    Condition: IsAZ02
+    Properties: 
+      VpcId: !Ref CFTVPC
+      AvailabilityZone: !Select [ 1, !GetAZs ]
+      CidrBlock: !Sub 10.${SecondOctet}.32.0/24
+      MapPublicIpOnLaunch: false
+      Tags: 
+        - Key: Name
+          Value: !Sub ${VPCName}-private-32nd
+        - Key: Created 
+          Value: !Sub ${TimeStamp}     
+  VPCSN13:  
+    Type: AWS::EC2::Subnet
+    Condition: IsAZ03
+    Properties: 
+      VpcId: !Ref CFTVPC
+      AvailabilityZone: !Select [ 2, !GetAZs ]
+      CidrBlock: !Sub 10.${SecondOctet}.13.0/24
+      MapPublicIpOnLaunch: true
+      Tags: 
+        - Key: Name
+          Value: !Sub ${VPCName}-public-13th
+        - Key: Created 
+          Value: !Sub ${TimeStamp}  
+  VPCSN23:  
+    Type: AWS::EC2::Subnet
+    Condition: IsAZ03
+    Properties: 
+      VpcId: !Ref CFTVPC
+      AvailabilityZone: !Select [ 2, !GetAZs ]
+      CidrBlock: !Sub 10.${SecondOctet}.23.0/24
+      MapPublicIpOnLaunch: false
+      Tags: 
+        - Key: Name
+          Value: !Sub ${VPCName}-private-23rd
+        - Key: Created 
+          Value: !Sub ${TimeStamp}  
+  VPCSN33:  
+    Type: AWS::EC2::Subnet
+    Condition: IsAZ03
+    Properties: 
+      VpcId: !Ref CFTVPC
+      AvailabilityZone: !Select [ 2, !GetAZs ]
+      CidrBlock: !Sub 10.${SecondOctet}.33.0/24
+      MapPublicIpOnLaunch: false
+      Tags: 
+        - Key: Name
+          Value: !Sub ${VPCName}-private-33rd
+        - Key: Created 
+          Value: !Sub ${TimeStamp}   
+
+  VPCSN14:  
+    Type: AWS::EC2::Subnet
+    Condition: IsAZ04
+    Properties: 
+      VpcId: !Ref CFTVPC
+      AvailabilityZone: !Select [ 3, !GetAZs ]
+      CidrBlock: !Sub 10.${SecondOctet}.14.0/24
+      MapPublicIpOnLaunch: true
+      Tags: 
+        - Key: Name
+          Value: !Sub ${VPCName}-public-14th
+        - Key: Created 
+          Value: !Sub ${TimeStamp}  
+  VPCSN24:  
+    Type: AWS::EC2::Subnet
+    Condition: IsAZ04
+    Properties: 
+      VpcId: !Ref CFTVPC
+      AvailabilityZone: !Select [ 3, !GetAZs ]
+      CidrBlock: !Sub 10.${SecondOctet}.24.0/24
+      MapPublicIpOnLaunch: false
+      Tags: 
+        - Key: Name
+          Value: !Sub ${VPCName}-private-24rd
+        - Key: Created 
+          Value: !Sub ${TimeStamp}  
+  VPCSN34:  
+    Type: AWS::EC2::Subnet
+    Condition: IsAZ04
+    Properties: 
+      VpcId: !Ref CFTVPC
+      AvailabilityZone: !Select [ 3, !GetAZs ]
+      CidrBlock: !Sub 10.${SecondOctet}.34.0/24
+      MapPublicIpOnLaunch: false
+      Tags: 
+        - Key: Name
+          Value: !Sub ${VPCName}-private-34rd
+        - Key: Created 
+          Value: !Sub ${TimeStamp}   
+
+  VPCSN15:  
+    Type: AWS::EC2::Subnet
+    Condition: IsAZ05
+    Properties: 
+      VpcId: !Ref CFTVPC
+      AvailabilityZone: !Select [ 4, !GetAZs ]
+      CidrBlock: !Sub 10.${SecondOctet}.15.0/24
+      MapPublicIpOnLaunch: true
+      Tags: 
+        - Key: Name
+          Value: !Sub ${VPCName}-public-15th
+        - Key: Created 
+          Value: !Sub ${TimeStamp}  
+  VPCSN25:  
+    Type: AWS::EC2::Subnet
+    Condition: IsAZ04
+    Properties: 
+      VpcId: !Ref CFTVPC
+      AvailabilityZone: !Select [ 4, !GetAZs ]
+      CidrBlock: !Sub 10.${SecondOctet}.25.0/24
+      MapPublicIpOnLaunch: false
+      Tags: 
+        - Key: Name
+          Value: !Sub ${VPCName}-private-25th
+        - Key: Created 
+          Value: !Sub ${TimeStamp}  
+  VPCSN35:  
+    Type: AWS::EC2::Subnet
+    Condition: IsAZ05
+    Properties: 
+      VpcId: !Ref CFTVPC
+      AvailabilityZone: !Select [ 4, !GetAZs ]
+      CidrBlock: !Sub 10.${SecondOctet}.35.0/24
+      MapPublicIpOnLaunch: false
+      Tags: 
+        - Key: Name
+          Value: !Sub ${VPCName}-private-35th
+        - Key: Created 
+          Value: !Sub ${TimeStamp}   
+
+  # Our VPC will need internet access:     
+  InternetGateway:
+    Type: AWS::EC2::InternetGateway
+    DependsOn: CFTVPC
+  AttachGateway:
+    Type: AWS::EC2::VPCGatewayAttachment
+    # Notice how you can't attach an IGW to a VPC unless both are created:
+    Properties:
+      VpcId: !Ref CFTVPC
+      InternetGatewayId: !Ref InternetGateway
+    # Some route tables for our subnets:
+  PublicRouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref CFTVPC
+      Tags:
+      - Key: Name
+        Value: Public
+  PublicRoute1:   # Public route table has direct routing to IGW:
+    Type: AWS::EC2::Route
+    DependsOn: AttachGateway
+    Properties:
+      RouteTableId: !Ref PublicRouteTable
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId: !Ref InternetGateway      
+  mySubnetRouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId:
+        Ref: VPCSN11
+      RouteTableId:
+        Ref: PublicRouteTable    
+  mySubnetRouteTableAssociation12:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId:
+        Ref: VPCSN12
+      RouteTableId:
+        Ref: PublicRouteTable        
+  mySubnetRouteTableAssociation13:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId:
+        Ref: VPCSN13
+      RouteTableId:
+        Ref: PublicRouteTable     
+  # Next build NAT Gateway (NGW)
+  # A NAT Gateway:
+  NATGateway:
+    Type: AWS::EC2::NatGateway
+    Properties:
+     AllocationId: !GetAtt ElasticIPAddress.AllocationId
+     SubnetId: !Ref VPCSN11
+     Tags:
+     - Key: Name
+       Value: !Sub NAT-${AWS::StackName}
+  ElasticIPAddress:
+    Type: AWS::EC2::EIP
+    Properties:
+     Domain: CFTVPC     
+  # Create Private subnet association 
+    # Here is a private route table:
+  PrivateRouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref CFTVPC
+      Tags:
+      - Key: Name
+        Value: Private
+  PrivateRoute1:            # Private route table can access web via NAT (created below)
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId: !Ref PrivateRouteTable
+      DestinationCidrBlock: 0.0.0.0/0
+      # Route traffic through the NAT Gateway:
+      NatGatewayId: !Ref NATGateway  
+  # Associate private route table with NAT Gateway NGW
+  mySubnetRouteTableAssociation21:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId:
+        Ref: VPCSN21
+      RouteTableId:
+        Ref: PrivateRouteTable 
+  mySubnetRouteTableAssociation31:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId:
+        Ref: VPCSN31
+      RouteTableId:
+        Ref: PrivateRouteTable 
+  mySubnetRouteTableAssociation22:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Condition: IsAZ02  
+    Properties:
+      SubnetId:
+        Ref: VPCSN22
+      RouteTableId:
+        Ref: PrivateRouteTable      
+  mySubnetRouteTableAssociation32:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Condition: IsAZ02 
+    Properties:
+      SubnetId:
+        Ref: VPCSN32
+      RouteTableId:
+        Ref: PrivateRouteTable  
+  mySubnetRouteTableAssociation23:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Condition: IsAZ03 
+    Properties:
+      SubnetId:
+        Ref: VPCSN23
+      RouteTableId:
+        Ref: PrivateRouteTable  
+  mySubnetRouteTableAssociation33:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Condition: IsAZ03 
+    Properties:
+      SubnetId:
+        Ref: VPCSN33
+      RouteTableId:
+        Ref: PrivateRouteTable  
+  mySubnetRouteTableAssociation24:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Condition: IsAZ04 
+    Properties:
+      SubnetId:
+        Ref: VPCSN24
+      RouteTableId:
+        Ref: PrivateRouteTable  
+  mySubnetRouteTableAssociation34:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Condition: IsAZ04 
+    Properties:
+      SubnetId:
+        Ref: VPCSN34
+      RouteTableId:
+        Ref: PrivateRouteTable 
+  mySubnetRouteTableAssociation25:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Condition: IsAZ05 
+    Properties:
+      SubnetId:
+        Ref: VPCSN25
+      RouteTableId:
+        Ref: PrivateRouteTable  
+  mySubnetRouteTableAssociation35:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Condition: IsAZ05 
+    Properties:
+      SubnetId:
+        Ref: VPCSN35
+      RouteTableId:
+        Ref: PrivateRouteTable                         
+  # Create Microsoft AD next 
+  # TODO - Replace password with dynamic reference
+  myDirectory: 
+    Type: AWS::DirectoryService::MicrosoftAD
+    #Condition: IsAD
+    Properties: 
+      #Name: !Join [".", [!Sub $DomainName, !Sub $BaseDomain]]
+      Name: "as2bravo.r4t.net"
+      Password: !Sub $DomainPassword
+      ShortName: !Sub $DomainName
+      VpcSettings: 
+        SubnetIds: 
+          - Ref: VPCSN21
+          - Ref: VPCSN22
+        VpcId: 
+          Ref: CFTVPC        
+Outputs:
+  BuildStackVPC:
+    Description: The ID of the VPC
+    Value: !Ref CFTVPC
+    Export:
+      Name: !Sub "${AWS::StackName}-CFTVPC"                                               
+  BuildStackDomainFQDN:
+    Description: The FQDN of the Directory Service
+    Value: !Ref myDirectory
+    Export:
+      Name: !Sub "${AWS::StackName}-myDirectory"   

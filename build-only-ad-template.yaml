@@ -1,0 +1,59 @@
+---
+Parameters:
+  StackVersion:
+    Type: String 
+    Default: alpha 
+    AllowedValues:
+      - alpha 
+      - bravo
+      - charlie
+      - delta 
+      - echo 
+      - foxtrot 
+      - gulf 
+      - hotel 
+      - india 
+    Description: Enter general version or attempt ID. 
+  TimeStamp: 
+    Type: String 
+    Default: 2021-12-31-2359
+    Description: Enter a Time stamp for naming and other identifiers. 
+  IsAD:
+    Type: String 
+    Default: No 
+    AllowedValues:
+      - Yes 
+      - No
+    Description: Make sure that the number of AZs is 2 or more. 
+  BaseDomain:
+    Type: String 
+    Default: r4t.net 
+    Description: Enter a base domain, the default is r4t.net.
+  DomainName: 
+    Type: String 
+    Default: bravo
+    Description: Enter a netbios domain name.  The default is bravo. 
+  DomainPassword:
+    Type: String
+    Default: Password1234!
+    Description: Enter a default domain administrator password.  The user will be -- admin.   
+Conditions: 
+  IsAD:
+    !Equals [ !Ref IsAD, 'Yes' ]  
+Resources:
+                     
+  # Create Microsoft AD next 
+  # TODO - Replace password with dynamic reference
+  myDirectory: 
+    Type: AWS::DirectoryService::MicrosoftAD
+    Condition: IsAD
+    Properties: 
+      Name: !Join [".", [!Sub $DomainName, !Sub $BaseDomain]]
+      Password: !Sub $DomainPassword
+      ShortName: !Sub $DomainName
+      VpcSettings: 
+        SubnetIds: 
+          - Ref: VPCSN21
+          - Ref: VPCSN22
+        VpcId: 
+          Ref: CFTVPC                                             
