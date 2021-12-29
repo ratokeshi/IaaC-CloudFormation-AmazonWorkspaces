@@ -1,0 +1,389 @@
+---
+Resources:
+  CFTVPC:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: 10.41.0.0/16
+      EnableDnsSupport: true
+      EnableDnsHostnames: true
+      InstanceTenancy: default
+      Tags:
+        - Key: Name
+          Value: w-bravo-02
+        - Key: Created
+          Value: 20211229-0945-16
+  VPCSN000:  
+    Type: AWS::EC2::Subnet
+    Properties: 
+      VpcId: !Ref CFTVPC
+      AvailabilityZone: !Select [ 0, !GetAZs ]
+      CidrBlock: 10.41.0.0/22
+      MapPublicIpOnLaunch: true
+      Tags: 
+        - Key: Name
+          Value: "euc-wpub-000th"
+  VPCSN080:  
+    Type: AWS::EC2::Subnet
+    Properties: 
+      VpcId: !Ref CFTVPC
+      AvailabilityZone: !Select [ 0, !GetAZs ]
+      CidrBlock: 10.41.80.0/22
+      MapPublicIpOnLaunch: false
+      Tags: 
+        - Key: Name
+          Value: "euc-wprv-080th" 
+  VPCSN160:  
+    Type: AWS::EC2::Subnet
+    Properties: 
+      VpcId: !Ref CFTVPC
+      AvailabilityZone: !Select [ 0, !GetAZs ]
+      CidrBlock: 10.41.160.0/22
+      MapPublicIpOnLaunch: false
+      Tags: 
+        - Key: Name
+          Value: "euc-wprv-160th"      
+  VPCSN016:  
+    Type: AWS::EC2::Subnet
+    Properties: 
+      VpcId: !Ref CFTVPC
+      AvailabilityZone: !Select [ 1, !GetAZs ]
+      CidrBlock: 10.41.16.0/22
+      MapPublicIpOnLaunch: true
+      Tags: 
+        - Key: Name
+          Value: "euc-wpub-016th"
+  VPCSN096:  
+    Type: AWS::EC2::Subnet
+    Properties: 
+      VpcId: !Ref CFTVPC
+      AvailabilityZone: !Select [ 1, !GetAZs ]
+      CidrBlock: 10.41.96.0/22
+      MapPublicIpOnLaunch: false
+      Tags: 
+        - Key: Name
+          Value: "euc-wprv-096th" 
+  VPCSN176:  
+    Type: AWS::EC2::Subnet
+    Properties: 
+      VpcId: !Ref CFTVPC
+      AvailabilityZone: !Select [ 1, !GetAZs ]
+      CidrBlock: 10.41.176.0/22
+      MapPublicIpOnLaunch: false
+      Tags: 
+        - Key: Name
+          Value: "euc-wprv-176th"    
+  VPCSN032:  
+    Type: AWS::EC2::Subnet
+    Properties: 
+      VpcId: !Ref CFTVPC
+      AvailabilityZone: !Select [ 2, !GetAZs ]
+      CidrBlock: 10.41.32.0/22
+      MapPublicIpOnLaunch: true
+      Tags: 
+        - Key: Name
+          Value: "euc-wpub-32nd"
+  VPCSN112:  
+    Type: AWS::EC2::Subnet
+    Properties: 
+      VpcId: !Ref CFTVPC
+      AvailabilityZone: !Select [ 2, !GetAZs ]
+      CidrBlock: 10.41.112.0/22
+      MapPublicIpOnLaunch: false
+      Tags: 
+        - Key: Name
+          Value: "euc-wprv-112th" 
+  VPCSN192:  
+    Type: AWS::EC2::Subnet
+    Properties: 
+      VpcId: !Ref CFTVPC
+      AvailabilityZone: !Select [ 2, !GetAZs ]
+      CidrBlock: 10.41.192.0/22
+      MapPublicIpOnLaunch: false
+      Tags: 
+        - Key: Name
+          Value: "euc-wprv-192nd"           
+  VPCSN048:  
+    Type: AWS::EC2::Subnet
+    Properties: 
+      VpcId: !Ref CFTVPC
+      AvailabilityZone: "us-west-2-lax-1a"
+      CidrBlock: 10.41.48.0/22
+      MapPublicIpOnLaunch: true
+      Tags: 
+        - Key: Name
+          Value: "euc-wpub-48th"
+  VPCSN128:  
+    Type: AWS::EC2::Subnet
+    Properties: 
+      VpcId: !Ref CFTVPC
+      AvailabilityZone: "us-west-2-lax-1a"
+      CidrBlock: 10.41.128.0/22
+      MapPublicIpOnLaunch: false
+      Tags: 
+        - Key: Name
+          Value: "euc-wprv-128th" 
+  VPCSN208:  
+    Type: AWS::EC2::Subnet
+    Properties: 
+      VpcId: !Ref CFTVPC
+      AvailabilityZone: "us-west-2-lax-1a"
+      CidrBlock: 10.41.208.0/22
+      MapPublicIpOnLaunch: false
+      Tags: 
+        - Key: Name
+          Value: "euc-wprv-208th"       
+  VPCSN064:  
+    Type: AWS::EC2::Subnet
+    Properties: 
+      VpcId: !Ref CFTVPC
+      AvailabilityZone: "us-west-2-lax-1b"
+      CidrBlock: 10.41.64.0/22
+      MapPublicIpOnLaunch: true
+      Tags: 
+        - Key: Name
+          Value: "euc-wpub-064th"
+  VPCSN144:  
+    Type: AWS::EC2::Subnet
+    Properties: 
+      VpcId: !Ref CFTVPC
+      AvailabilityZone: "us-west-2-lax-1b"
+      CidrBlock: 10.41.144.0/22
+      MapPublicIpOnLaunch: false
+      Tags: 
+        - Key: Name
+          Value: "euc-wprv-144th" 
+  VPCSN224:  
+    Type: AWS::EC2::Subnet
+    Properties: 
+      VpcId: !Ref CFTVPC
+      AvailabilityZone: "us-west-2-lax-1b"
+      CidrBlock: 10.41.224.0/22
+      MapPublicIpOnLaunch: false
+      Tags: 
+        - Key: Name
+          Value: "euc-wprv-224th"               
+  # Our VPC will need internet access:     
+  InternetGateway:
+    Type: AWS::EC2::InternetGateway
+    DependsOn: CFTVPC
+  AttachGateway:
+    Type: AWS::EC2::VPCGatewayAttachment
+    # Notice how you can't attach an IGW to a VPC unless both are created:
+    Properties:
+      VpcId: !Ref CFTVPC
+      InternetGatewayId: !Ref InternetGateway
+    # Some route tables for our subnets:
+  PublicRouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref CFTVPC
+      Tags:
+      - Key: Name
+        Value: Public
+  PublicRoute1:   # Public route table has direct routing to IGW:
+    Type: AWS::EC2::Route
+    DependsOn: AttachGateway
+    Properties:
+      RouteTableId: !Ref PublicRouteTable
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId: !Ref InternetGateway      
+  mySubnetRouteTableAssociation000:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId:
+        Ref: VPCSN000
+      RouteTableId:
+        Ref: PublicRouteTable    
+  mySubnetRouteTableAssociation016:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId:
+        Ref: VPCSN016
+      RouteTableId:
+        Ref: PublicRouteTable        
+  mySubnetRouteTableAssociation032:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId:
+        Ref: VPCSN032
+      RouteTableId:
+        Ref: PublicRouteTable     
+    mySubnetRouteTableAssociation048:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId:
+        Ref: VPCSN048
+      RouteTableId:
+        Ref: PublicRouteTable        
+  mySubnetRouteTableAssociation064:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId:
+        Ref: VPCSN064
+      RouteTableId:
+        Ref: PublicRouteTable           
+  # Next build NAT Gateway (NGW)
+  # A NAT Gateway:
+  NATGateway:
+    Type: AWS::EC2::NatGateway
+    Properties:
+     AllocationId: !GetAtt ElasticIPAddress.AllocationId
+     SubnetId: !Ref VPCSN000
+     Tags:
+     - Key: Name
+       Value: !Sub NAT-${AWS::StackName}
+  ElasticIPAddress:
+    Type: AWS::EC2::EIP
+    Properties:
+      Domain: CFTVPC 
+      InstanceId: !Ref NATGateway
+  # Create Private subnet association 
+    # Here is a private route table:
+  PrivateRouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref CFTVPC
+      Tags:
+      - Key: Name
+        Value: Private
+  PrivateRoute1:            # Private route table can access web via NAT (created below)
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId: !Ref PrivateRouteTable
+      DestinationCidrBlock: 0.0.0.0/0
+      # Route traffic through the NAT Gateway:
+      NatGatewayId: !Ref NATGateway  
+  # Associate private route table with NAT Gateway NGW
+  mySubnetRouteTableAssociation016:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId:
+        Ref: VPCSN016
+      RouteTableId:
+        Ref: PrivateRouteTable 
+  mySubnetRouteTableAssociation032:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId:
+        Ref: VPCSN032
+      RouteTableId:
+        Ref: PrivateRouteTable  
+  mySubnetRouteTableAssociation048:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId:
+        Ref: VPCSN048
+      RouteTableId:
+        Ref: PublicRouteTable        
+  mySubnetRouteTableAssociation064:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId:
+        Ref: VPCSN064
+      RouteTableId:
+        Ref: PublicRouteTable    
+  mySubnetRouteTableAssociation080:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId:
+        Ref: VPCSN080
+      RouteTableId:
+        Ref: PublicRouteTable   
+  mySubnetRouteTableAssociation096:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId:
+        Ref: VPCSN096
+      RouteTableId:
+        Ref: PublicRouteTable  
+  mySubnetRouteTableAssociation112:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId:
+        Ref: VPCSN112
+      RouteTableId:
+        Ref: PublicRouteTable                 
+  mySubnetRouteTableAssociation128:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId:
+        Ref: VPCSN128
+      RouteTableId:
+        Ref: PublicRouteTable   
+  mySubnetRouteTableAssociation144:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId:
+        Ref: VPCSN144
+      RouteTableId:
+        Ref: PublicRouteTable   
+  mySubnetRouteTableAssociation160:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId:
+        Ref: VPCSN160
+      RouteTableId:
+        Ref: PublicRouteTable   
+  mySubnetRouteTableAssociation176:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId:
+        Ref: VPCSN176
+      RouteTableId:
+        Ref: PublicRouteTable   
+  mySubnetRouteTableAssociation192:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId:
+        Ref: VPCSN192
+      RouteTableId:
+        Ref: PublicRouteTable   
+  mySubnetRouteTableAssociation208:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId:
+        Ref: VPCSN208
+      RouteTableId:
+        Ref: PublicRouteTable   
+  mySubnetRouteTableAssociation224:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId:
+        Ref: VPCSN224
+      RouteTableId:
+        Ref: PublicRouteTable   
+              
+  # Create Microsoft AD next 
+   
+  # TODO - Replace password with dynamic reference
+  mySecret4AD:
+    Type: AWS::SecretsManager::Secret
+    Properties:
+      Description: "This secret has a dynamically generated secret password."
+      GenerateSecretString:
+        SecretStringTemplate: '{"username":"admin"}'
+        GenerateStringKey: "password"
+        IncludeSpace: false
+        PasswordLength: 30
+        RequireEachIncludedType: false
+      Tags:
+      - Key: ADsecret
+        Value: ReplaceThis
+          
+  # Directory
+  myDirectory: 
+    Type: AWS::DirectoryService::MicrosoftAD
+    Properties: 
+      Name: "bravo.r4t.net"
+      Password: {
+        "Fn::Sub": "{{resolve:secretsmanager:${mySecret4AD}::password}}"
+      }
+      #  Ref: MicrosoftADPW
+      ShortName: "bravo"
+      #  Ref: "bravo"
+      VpcSettings: 
+        SubnetIds: 
+          - Ref: VPCSN000
+          - Ref: VPCSN224
+        VpcId: 
+          Ref: CFTVPC                                             
