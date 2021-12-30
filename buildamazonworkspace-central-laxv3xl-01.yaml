@@ -236,7 +236,6 @@ Resources:
     Type: AWS::EC2::EIP
     Properties:
       Domain: CFTVPC 
-      InstanceId: !Ref NATGateway
   # Create Private subnet association 
     # Here is a private route table:
   PrivateRouteTable:
@@ -383,7 +382,7 @@ Resources:
       #  Ref: "bravo"
       VpcSettings: 
         SubnetIds: 
-          - Ref: VPCSN000
-          - Ref: VPCSN224
+          - Ref: VPCSN080
+          - Ref: VPCSN096
         VpcId: 
           Ref: CFTVPC                                             
