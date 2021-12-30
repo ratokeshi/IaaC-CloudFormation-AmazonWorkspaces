@@ -386,3 +386,9 @@ Resources:
           - Ref: VPCSN096
         VpcId: 
           Ref: CFTVPC                                             
+  myDhcpOptions: 
+    Type: AWS::EC2::DHCPOptions
+    Properties: 
+        DomainName: bravo.r4t.net
+        DomainNameServers: 
+          - AmazonProvidedDNS
