@@ -1,5 +1,18 @@
 
 ---
+Parameters:
+  Subdomain:
+    Description: Subdomain
+    Type: String
+    Default: charlie
+  Domain:
+    Description: Domain
+    Type: String
+    Default: r4t.net
+  DomainPassword:
+    Description: Password
+    Type: String
+    Default: Password123
 Resources:
   CFTVPC:
     Type: AWS::EC2::VPC
