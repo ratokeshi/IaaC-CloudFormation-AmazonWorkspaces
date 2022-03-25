@@ -1,18 +1,44 @@
 
 ---
 Parameters:
-  Subdomain:
-    Description: Subdomain
-    Type: String
-    Default: charlie
-  Domain:
-    Description: Domain
-    Type: String
-    Default: r4t.net
+  StackVersion:
+    Type: String 
+    Default: alpha 
+    AllowedValues:
+      - alpha 
+      - bravo
+      - charlie
+      - delta 
+      - echo 
+      - foxtrot 
+      - gulf 
+      - hotel 
+      - india 
+    Description: Enter general version or attempt ID. 
+  TimeStamp: 
+    Type: String 
+    Default: 2021-12-31-2359
+    Description: Enter a Time stamp for naming and other identifiers. 
+  IsAD:
+    Type: String 
+    Default: No 
+    AllowedValues:
+      - Yes 
+      - No
+    Description: Make sure that the number of AZs is 2 or more. 
+  BaseDomain:
+    Type: String 
+    Default: r4t.net 
+    Description: Enter a base domain, the default is r4t.net.
+  DomainName: 
+    Type: String 
+    Default: bravo
+    Description: Enter a netbios domain name.  The default is bravo. 
   DomainPassword:
-    Description: Password
     Type: String
-    Default: Password123
+    Default: Password1234!
+    Description: Enter a default domain administrator password.  The user will be -- admin.   
+#Conditions: 
 Resources:
   CFTVPC:
     Type: AWS::EC2::VPC
@@ -237,6 +263,37 @@ Resources:
         Ref: PrivateRouteTable          
   # Create Microsoft AD next 
   # TODO - Replace password with dynamic reference
+  # - created dynamic passwrd in MySecret4AD below
+#This is a Secret resource with a randomly generated password in its SecretString JSON.
+  MySecretA:
+    Type: 'AWS::SecretsManager::Secret'
+    Properties:
+      Name: MySecretForAppA
+      Description: "This secret has a dynamically generated secret password."
+      GenerateSecretString:
+        SecretStringTemplate: '{"username": "test-user"}'
+        GenerateStringKey: "password"
+        PasswordLength: 30
+        ExcludeCharacters: '"@/\'
+      Tags:
+        -
+          Key: AppName
+          Value: AppA
+  #todo replace password above into below
+  MySecret4AD:
+    Type: 'AWS::SecretsManager::Secret'
+    Properties:
+      Name: MySecret4AD
+      Description: "This secret has a dynamically generated secret password for AD."
+      GenerateSecretString:
+        SecretStringTemplate: '{"username": "admin"}'
+        GenerateStringKey: "password"
+        PasswordLength: 30
+        ExcludeCharacters: '"@/\'
+      Tags:
+        -
+          Key: AppName
+          Value: ActiveDirectory        
   myDirectory: 
     Type: AWS::DirectoryService::MicrosoftAD
     Properties: 
