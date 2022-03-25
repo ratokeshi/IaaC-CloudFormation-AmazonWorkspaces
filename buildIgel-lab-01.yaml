@@ -39,6 +39,23 @@ Parameters:
     Default: Password1234!
     Description: Enter a default domain administrator password.  The user will be -- admin.   
 #Conditions: 
+Mappings: 
+  RegionMap: 
+ #   us-east-1: 
+ #     HVM64: "ami-0ff8a91507f77f867"
+ #     HVMG2: "ami-0a584ac55a7631c0c"
+    us-west-2: 
+      u2064: "ami-0892d3c7ee96c0bf7"
+      u1864: "ami-074251216af698218"
+#    eu-west-1: 
+#      HVM64: "ami-047bb4163c506cd98"
+#      HVMG2: "ami-31c2f645"
+#    ap-southeast-1: 
+#      HVM64: "ami-08569b978cc4dfa10"
+#      HVMG2: "ami-0be9df32ae9f92309"
+#    ap-northeast-1: 
+#      HVM64: "ami-06cd52961ce9f0d85"
+#      HVMG2: "ami-053cdd503598e4a9d"
 Resources:
   CFTVPC:
     Type: AWS::EC2::VPC
@@ -376,15 +393,25 @@ Resources:
           FromPort: -1
           ToPort: -1
           CidrIp: 0.0.0.0/0                         
-#  EC2InstanceTest01:
-#    Type: AWS::EC2::Instance
-#    Properties:
-#      ImageId: !FindInMap [ AWSRegionArch2AMI, !Ref 'AWS::Region', PV64 ]
-#      #KeyName: !Ref KeyName
-#      InstanceType: m1.small
+  EC2InstanceTest01:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: !FindInMap
+        - RegionMap
+        - !Ref 'AWS::Region'
+        - u2064
+      InstanceType: t3.xlarge
+  EC2InstanceTest02:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: !FindInMap
+        - RegionMap
+        - !Ref 'AWS::Region'
+        - u2064
+      InstanceType: t3.xlarge
+      SubnetId:
+        Ref: VPCSN11
 #      SecurityGroups:
 #      - !Ref r4tSgGeneralLocalAdmin
-#      BlockDeviceMappings:
-#        -
-#          DeviceName: /dev/sdc
-#          VirtualName: ephemeral0                                    
+#      - !Ref r4tSgLocalOpen
+                                
