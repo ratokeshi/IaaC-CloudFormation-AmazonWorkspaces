@@ -41,12 +41,24 @@ Parameters:
 #Conditions: 
 Mappings: 
   RegionMap: 
- #   us-east-1: 
- #     HVM64: "ami-0ff8a91507f77f867"
- #     HVMG2: "ami-0a584ac55a7631c0c"
+    us-east-1: 
+      u2064: "ami-04505e74c0741db8d"
+      u1864: "ami-0e472ba40eb589f49"
+      w1964: "ami-0f9a92942448ac56f"
+    us-east-2: 
+      u2064: "ami-0fb653ca2d3203ac1"
+      u1864: "ami-03a0c45ebc70f98ea"
+      w1964: "ami-0c4a11a8d0e503812"      
+    us-west-1: 
+      u2064: "ami-01f87c43e618bf8f0"
+      u1864: "ami-009726b835c24a3aa"
+      w1964: "ami-060613661baf99fa5"
     us-west-2: 
       u2064: "ami-0892d3c7ee96c0bf7"
       u1864: "ami-074251216af698218"
+      w1964: "ami-000b6e3a1a8493a2f"
+
+
 #    eu-west-1: 
 #      HVM64: "ami-047bb4163c506cd98"
 #      HVMG2: "ami-31c2f645"
@@ -393,24 +405,6 @@ Resources:
           FromPort: -1
           ToPort: -1
           CidrIp: 0.0.0.0/0                         
-  EC2InstanceTest01:
-    Type: AWS::EC2::Instance
-    Properties:
-      ImageId: !FindInMap
-        - RegionMap
-        - !Ref 'AWS::Region'
-        - u2064
-      InstanceType: t3.xlarge
-  EC2InstanceTest02:
-    Type: AWS::EC2::Instance
-    Properties:
-      ImageId: !FindInMap
-        - RegionMap
-        - !Ref 'AWS::Region'
-        - u2064
-      InstanceType: t3.xlarge
-      SubnetId:
-        Ref: VPCSN11
   EC2InstanceIgelICG01:
     Type: AWS::EC2::Instance
     Properties:
@@ -419,11 +413,15 @@ Resources:
         - !Ref 'AWS::Region'
         - u2064
       InstanceType: t3.xlarge
+      KeyName: "a5"
       SubnetId:
         Ref: VPCSN11    
       SecurityGroupIds:
         - Ref: r4tSgGeneralLocalAdmin
         - Ref: r4tSgLocalOpen        
+      Tags:
+        - Key: "Name"
+          Value: "IgelICG01" 
   EC2InstanceIgelICG02:
     Type: AWS::EC2::Instance
     Properties:
@@ -432,11 +430,15 @@ Resources:
         - !Ref 'AWS::Region'
         - u2064
       InstanceType: t3.xlarge
+      KeyName: "a5"
       SubnetId:
         Ref: VPCSN12  
       SecurityGroupIds:
         - Ref: r4tSgGeneralLocalAdmin
         - Ref: r4tSgLocalOpen        
+      Tags:
+        - Key: "Name"
+          Value: "IgelICG02" 
   EC2InstanceIgelICG03:
     Type: AWS::EC2::Instance
     Properties:
@@ -445,9 +447,82 @@ Resources:
         - !Ref 'AWS::Region'
         - u2064
       InstanceType: t3.xlarge
+      KeyName: "a5"
       SubnetId:
         Ref: VPCSN13                                  
       SecurityGroupIds:
         - Ref: r4tSgGeneralLocalAdmin
         - Ref: r4tSgLocalOpen
-                                
+      Tags:
+        - Key: "Name"
+          Value: "IgelICG03"    
+  EC2InstanceIgelUMS01:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: !FindInMap
+        - RegionMap
+        - !Ref 'AWS::Region'
+        - w1964
+      InstanceType: t3.xlarge
+      KeyName: "a5"
+      SubnetId:
+        Ref: VPCSN21                                  
+      SecurityGroupIds:
+        - Ref: r4tSgGeneralLocalAdmin
+        - Ref: r4tSgLocalOpen                               
+      Tags:
+        - Key: "Name"
+          Value: "IgelUMS01"    
+      UserData:
+        Fn::Base64: |
+          #!/bin/bash
+          cd .
+          wget https://az743625.vo.msecnd.net/files/IGEL_CLOUD_GATEWAY/installer-2.05.100.bin 
+          EOF   
+  EC2InstanceIgelUMS02:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: !FindInMap
+        - RegionMap
+        - !Ref 'AWS::Region'
+        - w1964
+      InstanceType: t3.xlarge
+      KeyName: "a5"
+      SubnetId:
+        Ref: VPCSN22                                  
+      SecurityGroupIds:
+        - Ref: r4tSgGeneralLocalAdmin
+        - Ref: r4tSgLocalOpen  
+      Tags:
+        - Key: "Name"
+          Value: "IgelUMS02"    
+      UserData:
+        Fn::Base64: |
+          #!/bin/bash
+          cd .
+          wget https://az743625.vo.msecnd.net/files/IGEL_CLOUD_GATEWAY/installer-2.05.100.bin 
+          EOF   
+
+  EC2InstanceIgelUMS03:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: !FindInMap
+        - RegionMap
+        - !Ref 'AWS::Region'
+        - w1964
+      InstanceType: t3.xlarge
+      KeyName: "a5"
+      SubnetId:
+        Ref: VPCSN23                                  
+      SecurityGroupIds:
+        - Ref: r4tSgGeneralLocalAdmin
+        - Ref: r4tSgLocalOpen  
+      Tags:
+        - Key: "Name"
+          Value: "IgelUMS03"     
+      UserData:
+        Fn::Base64: |
+          #!/bin/bash
+          cd .
+          wget https://az743625.vo.msecnd.net/files/IGEL_CLOUD_GATEWAY/installer-2.05.100.bin 
+          EOF                         
