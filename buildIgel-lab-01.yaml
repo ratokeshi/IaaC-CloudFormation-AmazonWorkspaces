@@ -411,7 +411,37 @@ Resources:
       InstanceType: t3.xlarge
       SubnetId:
         Ref: VPCSN11
-#      SecurityGroups:
-#      - !Ref r4tSgGeneralLocalAdmin
-#      - !Ref r4tSgLocalOpen
+  EC2InstanceIgelICG01:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: !FindInMap
+        - RegionMap
+        - !Ref 'AWS::Region'
+        - u2064
+      InstanceType: t3.xlarge
+      SubnetId:
+        Ref: VPCSN11    
+  EC2InstanceIgelICG02:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: !FindInMap
+        - RegionMap
+        - !Ref 'AWS::Region'
+        - u2064
+      InstanceType: t3.xlarge
+      SubnetId:
+        Ref: VPCSN12  
+  EC2InstanceIgelICG03:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: !FindInMap
+        - RegionMap
+        - !Ref 'AWS::Region'
+        - u2064
+      InstanceType: t3.xlarge
+      SubnetId:
+        Ref: VPCSN13                                  
+      SecurityGroupIds:
+        - Ref: r4tSgGeneralLocalAdmin
+        - Ref: r4tSgLocalOpen
                                 
