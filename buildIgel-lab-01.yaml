@@ -421,6 +421,9 @@ Resources:
       InstanceType: t3.xlarge
       SubnetId:
         Ref: VPCSN11    
+      SecurityGroupIds:
+        - Ref: r4tSgGeneralLocalAdmin
+        - Ref: r4tSgLocalOpen        
   EC2InstanceIgelICG02:
     Type: AWS::EC2::Instance
     Properties:
@@ -431,6 +434,9 @@ Resources:
       InstanceType: t3.xlarge
       SubnetId:
         Ref: VPCSN12  
+      SecurityGroupIds:
+        - Ref: r4tSgGeneralLocalAdmin
+        - Ref: r4tSgLocalOpen        
   EC2InstanceIgelICG03:
     Type: AWS::EC2::Instance
     Properties:
