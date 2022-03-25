@@ -208,7 +208,7 @@ Resources:
         Ref: VPCSN032
       RouteTableId:
         Ref: PublicRouteTable     
-    mySubnetRouteTableAssociation048:
+  mySubnetRouteTableAssociation048:
     Type: AWS::EC2::SubnetRouteTableAssociation
     Properties:
       SubnetId:
@@ -392,3 +392,81 @@ Resources:
         DomainName: bravo.r4t.net
         DomainNameServers: 
           - AmazonProvidedDNS
+Ec2InstCTXSCC000: 
+  Type: AWS::EC2::Instance
+  Properties: 
+    ImageId: ami-0b1e175055550f80e
+    InstanceType: m5.xlarge
+    Keyname: a1  
+    # InstanceSecurityGroup:
+    #   - gs-RemoteMgt
+    #   - d-dom-join-win-vpc
+    # NetworkInterfaces: 
+    #   - AssociatePublicIpAddress: "true"
+    #     DeviceIndex: "0"
+    #     SubnetId: 
+    #       Ref: "VPCSN000" 
+# Ec2InstCTXSCC016: 
+#   Type: AWS::EC2::Instance
+#   Properties: 
+#     ImageId: ami-0b1e175055550f80e
+#     InstanceType: m5.xlarge
+#     Keyname:
+#       - a1  
+#     InstanceSecurityGroup:
+#       - gs-RemoteMgt,
+#       - d-dom-join-win-vpc
+#     NetworkInterfaces: 
+#       - AssociatePublicIpAddress: "true"
+#         DeviceIndex: "0"
+#         SubnetId: 
+#           Ref: "VPCSN016" 
+# Ec2InstCTXSCC032: 
+#   Type: AWS::EC2::Instance
+#   Properties: 
+#     ImageId: 'ami-0b1e175055550f80e'
+#     InstanceType:
+#       - m5.xlarge
+#     Keyname:
+#       - a1  
+#     InstanceSecurityGroup:
+#       - gs-RemoteMgt,
+#       - d-dom-join-win-vpc
+#     NetworkInterfaces: 
+#       - AssociatePublicIpAddress: "true"
+#         DeviceIndex: "0"
+#         SubnetId: 
+#           Ref: "VPCSN032" 
+# Ec2InstCTXSCC048: 
+#   Type: AWS::EC2::Instance
+#   Properties: 
+#     ImageId: 'ami-0b1e175055550f80e'
+#     InstanceType:
+#       - m5.xlarge
+#     Keyname:
+#       - a1  
+#     InstanceSecurityGroup:
+#       - gs-RemoteMgt,
+#       - d-dom-join-win-vpc
+#     NetworkInterfaces: 
+#       - AssociatePublicIpAddress: "true"
+#         DeviceIndex: "0"
+#         SubnetId: 
+#           Ref: "VPCSN048" 
+# Ec2InstCTXSCC064: 
+#   Type: AWS::EC2::Instance
+#   Properties: 
+#     ImageId: 'ami-0b1e175055550f80e'
+#     InstanceType:
+#       - m5.xlarge
+#     Keyname:
+#       - a1  
+#     InstanceSecurityGroup:
+#       - gs-RemoteMgt,
+#       - d-dom-join-win-vpc
+#     NetworkInterfaces: 
+#       - AssociatePublicIpAddress: "true"
+#         DeviceIndex: "0"
+#         SubnetId: 
+#           Ref: "VPCSN064" 
+                        
