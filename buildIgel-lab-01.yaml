@@ -307,4 +307,37 @@ Resources:
           - Ref: VPCSN21
           - Ref: VPCSN22
         VpcId: 
-          Ref: CFTVPC                                             
+          Ref: CFTVPC                   
+  SGr4tGeneralLocalAdmin:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+        GroupDescription: Allow http to client host
+        VpcId:
+          Ref: CFTVPC
+        SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 3389
+          ToPort: 3389
+          CidrIp: 10.40.0.0/16
+        - IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          CidrIp: 10.40.0.0/16  
+        SecurityGroupEgress:
+        - IpProtocol: -1
+          FromPort: -1
+          ToPort: -1
+          CidrIp: 0.0.0.0/0
+          
+#  EC2InstanceTest01:
+#    Type: AWS::EC2::Instance
+#    Properties:
+#      ImageId: !FindInMap [ AWSRegionArch2AMI, !Ref 'AWS::Region', PV64 ]
+#      #KeyName: !Ref KeyName
+#      InstanceType: m1.small
+#      SecurityGroups:
+#      - !Ref SGr4tGeneralLocalAdmin
+#      BlockDeviceMappings:
+#        -
+#          DeviceName: /dev/sdc
+#          VirtualName: ephemeral0                                    
