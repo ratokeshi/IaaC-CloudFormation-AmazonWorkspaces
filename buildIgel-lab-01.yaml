@@ -308,10 +308,10 @@ Resources:
           - Ref: VPCSN22
         VpcId: 
           Ref: CFTVPC                   
-  SGr4tGeneralLocalAdmin:
+  r4tSgGeneralLocalAdmin:
     Type: AWS::EC2::SecurityGroup
     Properties:
-        GroupDescription: Allow http to client host
+        GroupDescription: Allow local administrative ports
         VpcId:
           Ref: CFTVPC
         SecurityGroupIngress:
@@ -328,7 +328,54 @@ Resources:
           FromPort: -1
           ToPort: -1
           CidrIp: 0.0.0.0/0
-          
+  r4tSgLocalOpen:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Allow all to local
+      VpcId:
+        Ref: CFTVPC
+      SecurityGroupIngress:
+      - IpProtocol: -1
+        FromPort: -1
+        ToPort: -1
+        CidrIp: 10.40.0.0/16
+      SecurityGroupEgress:
+      - IpProtocol: -1
+        FromPort: -1
+        ToPort: -1
+        CidrIp: 0.0.0.0/0     
+  r4tSgIgelIcgUms:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Allow 8443 for IGEL
+      VpcId:
+        Ref: CFTVPC
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 8443
+          ToPort: 8443
+          CidrIp: 10.40.0.0/16
+      SecurityGroupEgress:
+        - IpProtocol: -1
+          FromPort: -1
+          ToPort: -1
+          CidrIp: 0.0.0.0/0    
+  r4tSgIgelIcgExternal:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Allow 8443 for IGEL
+      VpcId:
+        Ref: CFTVPC
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 8443
+          ToPort: 8443
+          CidrIp: 0.0.0.0/0
+      SecurityGroupEgress:
+        - IpProtocol: -1
+          FromPort: -1
+          ToPort: -1
+          CidrIp: 0.0.0.0/0                         
 #  EC2InstanceTest01:
 #    Type: AWS::EC2::Instance
 #    Properties:
@@ -336,7 +383,7 @@ Resources:
 #      #KeyName: !Ref KeyName
 #      InstanceType: m1.small
 #      SecurityGroups:
-#      - !Ref SGr4tGeneralLocalAdmin
+#      - !Ref r4tSgGeneralLocalAdmin
 #      BlockDeviceMappings:
 #        -
 #          DeviceName: /dev/sdc
