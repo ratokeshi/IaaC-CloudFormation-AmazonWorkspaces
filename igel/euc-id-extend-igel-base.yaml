@@ -1,4 +1,3 @@
-
 ---
 Parameters:
   StackVersion:
@@ -19,13 +18,13 @@ Parameters:
     Type: String 
     Default: 2022-03-31-2359
     Description: Enter a Time stamp for naming and other identifiers. 
-#  IsAD:
-#    Type: String 
-#    Default: No 
-#    AllowedValues:
-#      - Yes 
-#      - No
-#    Description: Make sure that the number of AZs is 2 or more. 
+  IsAD:
+    Type: String 
+    Default: No 
+    AllowedValues:
+      - Yes 
+      - No
+    Description: Make sure that the number of AZs is 2 or more. 
   BaseDomain:
     Type: String 
     Default: r4t.net 
@@ -38,7 +37,6 @@ Parameters:
 #    Type: String
 #    Default: Password1234!
 #    Description: Enter a default domain administrator password.  The user will be -- admin.   
-#    This password is automatically generated and placed in Secrets Manager.  
 #Conditions: 
 Mappings: 
   RegionMap: 
@@ -58,10 +56,7 @@ Mappings:
       u2064: "ami-0892d3c7ee96c0bf7"
       u1864: "ami-074251216af698218"
       w1964: "ami-000b6e3a1a8493a2f"
-    ca-central-1:
-      u2064: "ami-0aee2d0182c9054ac"
-      u1864: "ami-04a6c66cacdef1be5"
-      w1964: "ami-01ec14fe563c1542c"     
+      #Add canada
 
 
 #    eu-west-1: 
@@ -83,7 +78,7 @@ Resources:
       InstanceTenancy: default
       Tags:
         - Key: Name
-          Value: euc-bravo-01
+          Value: workspaces-bravo-01
         - Key: Created
           Value: 2021-06-22-1328
   VPCSN11:  
@@ -95,7 +90,7 @@ Resources:
       MapPublicIpOnLaunch: true
       Tags: 
         - Key: Name
-          Value: "euc-west-public-11th"
+          Value: "wkspbravo-west-public-11th"
   VPCSN21:  
     Type: AWS::EC2::Subnet
     Properties: 
@@ -105,7 +100,7 @@ Resources:
       MapPublicIpOnLaunch: false
       Tags: 
         - Key: Name
-          Value: "euc-west-private-21st" 
+          Value: "wkspbravo-west-private-21st" 
   VPCSN31:  
     Type: AWS::EC2::Subnet
     Properties: 
@@ -115,7 +110,7 @@ Resources:
       MapPublicIpOnLaunch: false
       Tags: 
         - Key: Name
-          Value: "euc-west-private-31st"      
+          Value: "wkspbravo-west-private-31st"      
   VPCSN12:  
     Type: AWS::EC2::Subnet
     Properties: 
@@ -125,7 +120,7 @@ Resources:
       MapPublicIpOnLaunch: true
       Tags: 
         - Key: Name
-          Value: "euc-west-public-12th"
+          Value: "wkspbravo-west-public-12th"
   VPCSN22:  
     Type: AWS::EC2::Subnet
     Properties: 
@@ -135,7 +130,7 @@ Resources:
       MapPublicIpOnLaunch: false
       Tags: 
         - Key: Name
-          Value: "euc-west-private-22nd" 
+          Value: "wkspbravo-west-private-22nd" 
   VPCSN32:  
     Type: AWS::EC2::Subnet
     Properties: 
@@ -145,7 +140,7 @@ Resources:
       MapPublicIpOnLaunch: false
       Tags: 
         - Key: Name
-          Value: "euc-west-private-32nd"    
+          Value: "wkspbravo-west-private-32nd"    
   VPCSN13:  
     Type: AWS::EC2::Subnet
     Properties: 
@@ -155,7 +150,7 @@ Resources:
       MapPublicIpOnLaunch: true
       Tags: 
         - Key: Name
-          Value: "euc-west-public-13th"
+          Value: "wkspbravo-west-public-13th"
   VPCSN23:  
     Type: AWS::EC2::Subnet
     Properties: 
@@ -165,7 +160,7 @@ Resources:
       MapPublicIpOnLaunch: false
       Tags: 
         - Key: Name
-          Value: "euc-west-private-23rd" 
+          Value: "wkspbravo-west-private-23rd" 
   VPCSN33:  
     Type: AWS::EC2::Subnet
     Properties: 
@@ -175,7 +170,7 @@ Resources:
       MapPublicIpOnLaunch: false
       Tags: 
         - Key: Name
-          Value: "euc-west-private-33rd"                     
+          Value: "wkspbravo-west-private-33rd"                     
   # Our VPC will need internet access:     
   InternetGateway:
     Type: AWS::EC2::InternetGateway
@@ -314,26 +309,25 @@ Resources:
           Key: AppName
           Value: AppA
   #todo replace password above into below
-  mySecret4AD:
-    Type: AWS::SecretsManager::Secret
+  MySecret4AD:
+    Type: 'AWS::SecretsManager::Secret'
     Properties:
-      Description: "This secret has a dynamically generated secret password."
+      Name: MySecret4AD
+      Description: "This secret has a dynamically generated secret password for AD."
       GenerateSecretString:
-        SecretStringTemplate: '{"username":"admin"}'
+        SecretStringTemplate: '{"username": "admin"}'
         GenerateStringKey: "password"
-        IncludeSpace: false
         PasswordLength: 30
-        RequireEachIncludedType: false
+        ExcludeCharacters: '"@/\'
       Tags:
-      - Key: ADsecret
-        Value: ReplaceThis
+        -
+          Key: AppName
+          Value: ActiveDirectory        
   myDirectory: 
     Type: AWS::DirectoryService::MicrosoftAD
     Properties: 
       Name: "bravo.r4t.net"
-      Password: {
-        "Fn::Sub": "{{resolve:secretsmanager:${mySecret4AD}::password}}"
-      }
+      Password: "Password1234!"
       #  Ref: MicrosoftADPW
       ShortName: "bravo"
       #  Ref: "bravo"
@@ -532,18 +526,18 @@ Resources:
           cd .
           wget https://az743625.vo.msecnd.net/files/IGEL_CLOUD_GATEWAY/installer-2.05.100.bin 
           EOF                         
-#  WkspAdminJumpbox:
-#    Type: AWS::WorkSpaces::Workspace
-#    Properties: 
-#      BundleId: wsb-fn373c5rw
-#      DirectoryId: 
-#        - Ref: myDirectory
-#      RootVolumeEncryptionEnabled: False
-#      Tags: 
-#        - Key: "Name"
-#          Value: "WkspAdminJumpbox"    
-#      UserName: "TestUsername"
-#      UserVolumeEncryptionEnabled: False
-#      VolumeEncryptionKey: String
+  WkspAdminJumpbox:
+    Type: AWS::WorkSpaces::Workspace
+    Properties: 
+      BundleId: wsb-fn373c5rw
+      DirectoryId: 
+        - Ref: myDirectory
+      RootVolumeEncryptionEnabled: False
+      Tags: 
+        - Key: "Name"
+          Value: "WkspAdminJumpbox"    
+      UserName: "TestUsername"
+      UserVolumeEncryptionEnabled: False
+      VolumeEncryptionKey: String
       #WorkspaceProperties: 
       #  WorkspaceProperties

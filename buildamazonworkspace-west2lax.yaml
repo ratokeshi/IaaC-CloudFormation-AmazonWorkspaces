@@ -245,7 +245,6 @@ Resources:
           Value: {
             "Fn::Sub": "{{resolve:DirectoryService:${myDirectory}::Name}}"
           }
-
   myDirectory: 
     Type: AWS::DirectoryService::MicrosoftAD
     Properties: 
