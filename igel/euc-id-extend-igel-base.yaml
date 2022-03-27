@@ -422,6 +422,12 @@ Resources:
       Tags:
         - Key: "Name"
           Value: "IgelICG01" 
+      UserData:
+        Fn::Base64: |
+          #!/bin/bash
+          cd .
+          wget https://az743625.vo.msecnd.net/files/IGEL_CLOUD_GATEWAY/installer-2.05.100.bin 
+          EOF           
   EC2InstanceIgelICG02:
     Type: AWS::EC2::Instance
     Properties:
@@ -439,6 +445,12 @@ Resources:
       Tags:
         - Key: "Name"
           Value: "IgelICG02" 
+      UserData:
+        Fn::Base64: |
+          #!/bin/bash
+          cd .
+          wget https://az743625.vo.msecnd.net/files/IGEL_CLOUD_GATEWAY/installer-2.05.100.bin 
+          EOF   
   EC2InstanceIgelICG03:
     Type: AWS::EC2::Instance
     Properties:
@@ -456,6 +468,12 @@ Resources:
       Tags:
         - Key: "Name"
           Value: "IgelICG03"    
+      UserData:
+        Fn::Base64: |
+          #!/bin/bash
+          cd .
+          wget https://az743625.vo.msecnd.net/files/IGEL_CLOUD_GATEWAY/installer-2.05.100.bin 
+          EOF   
   EC2InstanceIgelUMS01:
     Type: AWS::EC2::Instance
     Properties:

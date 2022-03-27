@@ -46,6 +46,8 @@ Mappings:
       u2064: "ami-04505e74c0741db8d"
       u1864: "ami-0e472ba40eb589f49"
       w1964: "ami-0f9a92942448ac56f"
+      wbwbase19: "wsb-fn373c5rw"
+      wbwbase16: "wsb-gm4d5tx2v"
     us-east-2: 
       u2064: "ami-0fb653ca2d3203ac1"
       u1864: "ami-03a0c45ebc70f98ea"
@@ -58,11 +60,14 @@ Mappings:
       u2064: "ami-0892d3c7ee96c0bf7"
       u1864: "ami-074251216af698218"
       w1964: "ami-000b6e3a1a8493a2f"
+      wbwbase19: "wsb-fn373c5rw"
+      wbwbase16: "wsb-gm4d5tx2v"
     ca-central-1:
       u2064: "ami-0aee2d0182c9054ac"
       u1864: "ami-04a6c66cacdef1be5"
       w1964: "ami-01ec14fe563c1542c"     
-
+      wbwbase16: "wsb-gm4d5tx2v"
+      wbwbase19: "wsb-fn373c5rw"
 
 #    eu-west-1: 
 #      HVM64: "ami-047bb4163c506cd98"
@@ -547,3 +552,23 @@ Resources:
 #      VolumeEncryptionKey: String
       #WorkspaceProperties: 
       #  WorkspaceProperties
+
+# TODO create workspaces
+#Possible prereq - run aws cli to create users
+#   - https://aws.amazon.com/premiumsupport/knowledge-center/cloudformation-commandrunner-stack/
+#   - https://docs.aws.amazon.com/cli/latest/reference/workdocs/create-user.html
+#   - 
+#  WorkSpaceWithoutEncryption:
+#    Type: AWS::WorkSpaces::Workspace
+#    Condition: NoEncryption    
+#    Properties:
+##      BundleId: !FindInMap
+#        - RegionMap
+#        - !Ref 'AWS::Region'
+#        - wbwbase19
+#      DirectoryId: { "Ref": "myDirectory" }
+#      UserName: !Ref User
+#      RootVolumeEncryptionEnabled: !Ref IsRootVolumeEncrypted
+#      UserVolumeEncryptionEnabled: !Ref IsUserVolumeEncrypted
+#      WorkspaceProperties:
+#        RunningMode: !Ref RunningModeType
